@@ -1,6 +1,6 @@
 "use strict";
 
-class Client {
+class DatabaseClient {
 
   /**
    * Create Client
@@ -27,7 +27,7 @@ class Client {
   }
 
   static createInstance(client) {
-    return new Client(parseInt(client.cldbid), client.client_unique_identifier,
+    return new DatabaseClient(parseInt(client.cldbid), client.client_unique_identifier,
     client.client_nickname, new Date(parseInt(client.client_created) * 1000),
     new Date(parseInt(client.client_lastconnected) * 1000),
     parseInt(client.client_totalconnections), client.client_description,

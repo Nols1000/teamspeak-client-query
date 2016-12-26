@@ -6,7 +6,7 @@ let ListResponseParser = require('./ListResponseParser.js');
 
 let BanRule = require('./model/BanRule.js');
 let Channel = require('./model/Channel.js');
-let Client = require('./model/Client.js');
+let DatabaseClient = require('./model/DatabaseClient.js');
 
 class TeamspeakClientQuery {
 
@@ -171,7 +171,7 @@ class TeamspeakClientQuery {
               } else {
                 // return the client
                 resolve(Batch.createInstances(
-                  ListResponseParser.parse(response.getLines()), Client));
+                  ListResponseParser.parse(response.getLines()), DatabaseClient));
               }
             });
           }
@@ -184,7 +184,7 @@ class TeamspeakClientQuery {
     return new Promise(function(resolve, reject) {
       // send command channellist
       this.socket.send("clientlist",
-      {"uid": uid, "away": away, "groups": groups, "icon": icon, "voice": voice, 
+      {"uid": uid, "away": away, "groups": groups, "icon": icon, "voice": voice,
       "country": country},
       function(response) {
         if(response.error) {
