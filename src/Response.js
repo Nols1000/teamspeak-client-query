@@ -17,6 +17,10 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+ /**
+  * Response
+  * @author Nils-Boerge Margotti <margotni@kalmiya.de>
+  */
 class Response {
 
   constructor(lines, error, request) {

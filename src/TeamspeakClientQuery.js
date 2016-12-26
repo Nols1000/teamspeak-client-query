@@ -25,6 +25,10 @@ let BanRule = require('./model/BanRule.js');
 let Channel = require('./model/Channel.js');
 let DatabaseClient = require('./model/DatabaseClient.js');
 
+/**
+ * TeamspeakClientQuery
+ * @author Nils-Boerge Margotti <margotni@kalmiya.de>
+ */
 class TeamspeakClientQuery {
 
   constructor(address, port) {

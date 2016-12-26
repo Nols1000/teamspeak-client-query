@@ -19,6 +19,11 @@
 
 let Scanner = require('./Scanner.js');
 
+/**
+ * ListResponseParser
+ * Parse lists from response
+ * @author Nils-Boerge Margotti <margotni@kalmiya.de>
+ */
 class ListResponseParser {
 
   static parse(data) {

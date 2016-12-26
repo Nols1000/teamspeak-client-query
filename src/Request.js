@@ -18,6 +18,7 @@
  */
 
 /**
+ * Request
  * @author Nils-Boerge Margotti
  */
 class Request {

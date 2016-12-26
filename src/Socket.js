@@ -18,11 +18,11 @@
  */
 
 /* Imports */
+let EventEmitter = require('events').EventEmitter;
+
 let Request = require('./Request.js');
 let Response = require('./Response.js');
 let Scanner = require('./Scanner.js');
-
-let EventEmitter = require('events').EventEmitter;
 
 /* Logging */
 
@@ -33,6 +33,7 @@ winston.add(winston.transports.File, { filename: '../logs/' + Date.now() + '.log
 winston.remove(winston.transports.Console);
 
 /**
+ * Socket
  * @author Nils-Boerge Margotti <nilsmargotti@gmail.com>
  */
 class Socket extends EventEmitter {

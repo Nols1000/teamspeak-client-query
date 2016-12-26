@@ -17,6 +17,10 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * DatabaseClient
+ * @author Nils-Boerge Margotti <margotni@kalmiya.de>
+ */
 class DatabaseClient {
 
   /**

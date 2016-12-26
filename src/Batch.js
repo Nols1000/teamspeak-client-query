@@ -17,6 +17,10 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+ /**
+  * Batch Process helper
+  * @author Nils-Boerge Margotti <margotni@kalmiya.de>
+  */
 class Batch {
 
   static createInstances(list, Obj) {
