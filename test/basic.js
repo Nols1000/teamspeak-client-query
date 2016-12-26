@@ -1,3 +1,4 @@
+"use strict";
 /**
  * Basic test of TeamspeakClientQuery
  * @author Nils-Boerge Margotti <margotni@kalmiya.de>
