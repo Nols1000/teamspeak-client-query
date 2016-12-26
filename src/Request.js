@@ -5,14 +5,25 @@
  */
 class Request {
 
-  /**
-   *
-   */
-  constructor(body, callback) {
-    /** {String} body of the request */
-    this.body = body;
-    /** {Function} */
+  constructor(command, args, callback) {
+    this.command = command;
+    this.arguments = args;
     this.callback = callback;
+  }
+
+  toString() {
+    let string = this.command;
+    for(let key in this.arguments) {
+      let type = typeof this.arguments[key];
+      if(type != "undefined") {
+        if(type == "boolean" && this.arguments[key]) {
+          string += " -" + key;
+        } else {
+          string += " " + key + "=" + this.arguments[key];
+        }
+      }
+    }
+    return string;
   }
 }
 
