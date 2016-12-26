@@ -4,7 +4,7 @@
   "description": "Teamspeak Client Query API implementation in node.js",
   "main": "index.js",
   "scripts": {
-    "test": "node test/test.js"
+    "test": "make test"
   },
   "keywords": [
     "teamspeak",
@@ -14,9 +14,22 @@
     "query",
     "api"
   ],
-  "author": "Nils-Boerge Margotti",
+  "author": {
+	"name": "Nils-Boerge Margotti",
+	"url": "https://github.com/Nols1000"
+  },
+  "repository": { 
+	"type": "git",
+	"url": "https://github.com/Nols1000/teamspeak-client-query.git"
+  },
+  "bugs": {
+	"url": "https://github.com/Nols1000/teamspeak-client-query/issues"
+  },
   "license": "GPL-3.0",
   "dependencies": {
     "winston": "^2.3.0"
+  },
+  "devDependencies": {
+    "mocha": "^3.2.0"
   }
 }
