@@ -43,7 +43,7 @@ For a full documentation please wait for the first release.
 Please read [Changelog.md](CHANGELOG.md)
 
 ### Contributing
-Please read [Contribute.md](CONTRIBUTING.md)
+Please read [Contributing.md](CONTRIBUTING.md)
 
 ### License
 Teamspeak Client Query
