@@ -1,0 +1,22 @@
+{
+  "name": "teamspeak-client-query",
+  "version": "1.0.0",
+  "description": "Teamspeak Client Query API implementation in node.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test/test.js"
+  },
+  "keywords": [
+    "teamspeak",
+    "ts",
+    "ts3",
+    "client",
+    "query",
+    "api"
+  ],
+  "author": "Nils-Boerge Margotti",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "winston": "^2.3.0"
+  }
+}
