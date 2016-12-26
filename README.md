@@ -34,7 +34,7 @@ For a full documentation please wait for the first release.
     - [ ] channeladdperm
     - [ ] channelclientaddperm
     - [ ] channelclientdelperm
-    - ...
+    - [ ] ...
     - [X] channellist
     - [X] clientdblist
 - [ ] Events
