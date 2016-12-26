@@ -56,4 +56,4 @@ class DatabaseClient {
   }
 }
 
-module.exports = Client;
+module.exports = DatabaseClient;

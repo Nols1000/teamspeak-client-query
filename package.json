@@ -15,21 +15,22 @@
     "api"
   ],
   "author": {
-	"name": "Nils-Boerge Margotti",
-	"url": "https://github.com/Nols1000"
+    "name": "Nils-Boerge Margotti",
+    "url": "https://github.com/Nols1000"
   },
-  "repository": { 
-	"type": "git",
-	"url": "https://github.com/Nols1000/teamspeak-client-query.git"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Nols1000/teamspeak-client-query.git"
   },
   "bugs": {
-	"url": "https://github.com/Nols1000/teamspeak-client-query/issues"
+    "url": "https://github.com/Nols1000/teamspeak-client-query/issues"
   },
   "license": "GPL-3.0",
   "dependencies": {
     "winston": "^2.3.0"
   },
   "devDependencies": {
+    "chai": "^3.5.0",
     "mocha": "^3.2.0"
   }
 }

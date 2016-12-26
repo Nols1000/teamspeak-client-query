@@ -3,12 +3,12 @@
  * @author Nils-Boerge Margotti <margotni@kalmiya.de>
  */
 
-let test = require('unit.js');
+var assert = require('chai').assert;
 
 let TeamspeakClientQuery = require('../src/TeamspeakClientQuery.js');
 
 describe("TeamspeakClientQuery", function() {
   it('load', function() {
-    return true;
+    assert.isOk('everything', 'everything is ok');
   });
 });
