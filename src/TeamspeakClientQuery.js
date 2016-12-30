@@ -42,13 +42,25 @@ class TeamspeakClientQuery {
    *
    * Example:
    * <code>
-   *
+   * TeamspeakClientQuery.banadd(ip, null, null, 0, "reason").than(
+   * function(banid) {
+   * 	// Do something
+   * }, function(reason) {
+   * 	throw reason;
+   * });
    * </code>
    */
   banadd(ip, name, uid, time, reason) {
     return new Promise(function(resolve, reject) {
-
-    });
+			this.socket.send("banadd", { "ip": ip, "name": name, "uid": uid,
+			"time": time, "reason": reason}, function(res) {
+				if(res.error) {
+					reject(res.error);
+				} else {
+					resolve();
+				}
+			});
+    }.bind(this));
   }
 
   /**
@@ -61,11 +73,26 @@ class TeamspeakClientQuery {
    *
    * Example:
    * <code>
-   *
+   * TeamspeakClientQuery.banclient(clid, null, null, 0, "reason").than(
+   * function(banid) {
+   *  // Do something
+   * }, function(reason) {
+   * 	throw reason;
+   * });
    * </code>
    */
   banclient(clid, cldbid, uid, time, banreason) {
-
+		return new Promise(function(resolve, reject) {
+			this.socket.send("banclient", {"clid": clid, "cldbid": cldbid, "uid": uid,
+			"time": time, "banreason": banreason}, function(res) {
+				if(res.error) {
+					reject(res.error);
+				} else {
+					// TODO: parse the response
+					resolve(res);
+				}
+			})
+		}.bind(this));
   }
 
   /**
@@ -73,11 +100,23 @@ class TeamspeakClientQuery {
    *
    * Example:
    * <code>
-   *
+   * TeamspeakClientQuery.bandel(banid).than(function() {
+   * 	// Do something
+   * }, function(reason) {
+   * 	throw reason;
+   * });
    * </code>
    */
   bandel(banid) {
-
+		return new Promise(function(resolve, reject) {
+			this.socket.send("bandel", {"banid": banid}, function(res) {
+				if(res.error) {
+					reject(res.error);
+				} else {
+					resolve();
+				}
+			});
+		}.bind(this));
   }
 
   /**
@@ -85,11 +124,24 @@ class TeamspeakClientQuery {
    *
    * Example:
    * <code>
-   * TeamspeakClientQuery.bandelall()
+   * TeamspeakClientQuery.bandelall().than(function() {
+   * 	// Do something
+   * }, function(reason) {
+   * 	throw reason;
+   * });
    * </code>
    */
   bandelall() {
-
+		return new Promise(function(resolve, reject) {
+			this.socket.send("bandelall", {}, function(res) {
+				if(res.error) {
+					reject(res.error);
+				} else {
+					// TODO: parse respone;
+					resolve(res);
+				}
+			});
+		}.bind(this))
   }
 
   /**
@@ -97,7 +149,7 @@ class TeamspeakClientQuery {
    *
    * Example:
    * <code>
-   * tcq.banlist().then(function(respones) {
+   * TeamspeakClientQuery.banlist().then(function(respones) {
    *   // Do something
    * }, function(reason) {
    *   throw reason;
@@ -134,6 +186,11 @@ class TeamspeakClientQuery {
     }.bind(this));
   }
 
+	// channeladdperm
+	// channelclientaddperm
+	// channelclientdelperm
+	// channelclientlist
+
   channelclientlist() {
 
   }
@@ -142,13 +199,22 @@ class TeamspeakClientQuery {
 
   }
 
+	// channelconnectinfo
+	// channelcreate
+	// channeldelete
+	// channeldelperm
+	// channeledit
+	// channelgroupadd
+	// channelgroupaddperm
+
   channelgroupclientlist() {
 
   }
 
-  channelgroupclientpermlist() {
-
-  }
+	// channelgroupdel
+	// channelgroupdelperm
+	// channelgrouplist
+	// channelgrouppermlist
 
   channellist() {
     return new Promise(function(resolve, reject) {
@@ -165,9 +231,16 @@ class TeamspeakClientQuery {
     }.bind(this));
   }
 
+	// channelmove
+
   channelpermlist() {
 
   }
+
+	// channelvariable
+	// clientaddperm
+	// clientdbdelete
+	// clientdbedit
 
   clientdblist(offset, limit, count) {
     return new Promise(function(resolve, reject) {
@@ -201,6 +274,14 @@ class TeamspeakClientQuery {
     }.bind(this));
   }
 
+	// clientdelperm
+	// clientgetdbidfromuid
+	// clientgetids
+	// clientgetnamefromdbid
+	// clientgetnamefromuid
+	// clientgetuidfromclid
+	// clientkick
+
   clientlist(uid, away, voice, groups, icon, country) {
     return new Promise(function(resolve, reject) {
       // send command channellist
@@ -218,29 +299,72 @@ class TeamspeakClientQuery {
     }.bind(this));
   }
 
+	// clientmove
+	// clientmute
+	// clientnotifyregister
+	// clientnotifyunregister
+	// clientpermlist
+	// clientpoke
+	// clientunmute
+	// clientupdate
+	// clientvaribale
+	// complainadd
+	// complaindel
+	// complaindelall
+
   complainlist() {
 
   }
+
+	// currentschandlerid
+	// ftcreatedir
+	// ftdeletefile
+	// ftgetfileinfo
 
   ftgetfilelist() {
 
   }
 
+	// ftinitdownload
+	// ftinitupload
+
   ftlist() {
 
   }
+
+	// ftrenamefile
+	// ftstop
+	// hashpassword
+	// help
+	// messageadd
+	// messagedel
+	// messageget
 
   messagelist() {
 
   }
 
+	// messageupdateflag
+	// permoverview
+	// quit
+	// sendtextmessage
+	// serverconnectinfo
+
   serverconnectionhandlerlist() {
 
   }
 
+	// servergroupadd
+	// servergroupaddclient
+	// servergroupaddperm
+
   servergroupclientlist() {
 
   }
+
+	// servergroupdel
+	// servergroupdelclient
+	// servergroupdelperm
 
   servergrouplist() {
 
@@ -250,9 +374,21 @@ class TeamspeakClientQuery {
 
   }
 
+	// servergroupsbyclientid
+	// servervariable
+	// setclientchannelgroup
+	// tokenadd
+	// tokendelete
+
   tokenlist() {
 
   }
+
+	// tokenuse
+	// use
+	// verifychannelpassword
+	// verifyserverpassword
+	// whoami
 }
 
 var tcq = new TeamspeakClientQuery("127.0.0.1", 25639);
