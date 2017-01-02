@@ -39,16 +39,30 @@ class TeamspeakClientQuery {
   /**
    * Adds a new ban rule on the selected virtual server. All parameters are
    * optional but at least one of the following must be set: ip, name, or uid.
-   *
-   * Example:
-   * <code>
+   * <br />
+   * <br />
+   * Example: <br />
+   * <code><pre>
    * TeamspeakClientQuery.banadd(ip, null, null, 0, "reason").than(
    * function(banid) {
    * 	// Do something
    * }, function(reason) {
    * 	throw reason;
    * });
-   * </code>
+   * </pre></code>
+   *
+   * Resolve return NOT IMPLEMENTED YET!!!
+   *
+   * @param {String} ip						Client-IP
+   * @param {String} name					Client-Name
+   * @param {String} uid					Client-UID
+   * @param {Number} time					Time in seconds the ban will be enforced
+   * @param {String} reason 			Reason why the ban was added.
+   *
+   * @return {Promise}						Promise that resolves when the method was
+	 *                              successful and rejects if it was not.
+	 *                              Provides an error if rejected and a
+	 *                              {@link BanRule} if it resolves.
    */
   banadd(ip, name, uid, time, reason) {
     return new Promise(function(resolve, reject) {
@@ -64,27 +78,41 @@ class TeamspeakClientQuery {
   }
 
   /**
-   * Bans the client specified with ID clid from the server. Please note that this
-   * will create two separate ban rules for the targeted clients IP address and his
-   * unique identifier.
-   *
+   * Bans the client specified with ID clientid or database ID clientdbid or
+   * UID uid from the server. Please note that this will create two separate
+   * ban rules for the targeted clients IP address and his unique identifier.
+   * <br />
+   * <br />
    * Note that banning via cldbid parameter requires a 3.0.1 server version.
+   * <br />
    * Note that banning via uid parameter requires a 3.0.2 server version.
-   *
-   * Example:
-   * <code>
+   * <br />
+   * <br />
+   * Example: <br />
+   * <code><pre>
    * TeamspeakClientQuery.banclient(clid, null, null, 0, "reason").than(
    * function(banid) {
-   *  // Do something
+   * 	// Do something
    * }, function(reason) {
    * 	throw reason;
    * });
-   * </code>
+   * </pre></code>
+   *
+   * @param {Number} clientid					Client-ID
+   * @param {Number} clientdbid				ClientDBID
+   * @param {String} uid							UID
+   * @param {Number} time							Time in seconds the ban will be enforced
+   * @param {String} reason						Reason why the ban was added.
+   *
+   * @return {Promise} 								Promise that resolves when the method was
+	 *                                  successful and rejects if it was not.
+	 *                                  Provides an error if rejected and a
+	 *                                  {@link BanRule} if it resolves.
    */
-  banclient(clid, cldbid, uid, time, banreason) {
+  banclient(clientid, clientdbid, uid, time, reason) {
 		return new Promise(function(resolve, reject) {
-			this.socket.send("banclient", {"clid": clid, "cldbid": cldbid, "uid": uid,
-			"time": time, "banreason": banreason}, function(res) {
+			this.socket.send("banclient", {"clid": clientid, "cldbid": clientdbid,
+			"uid": uid, "time": time, "banreason": reason}, function(res) {
 				if(res.error) {
 					reject(res.error);
 				} else {
@@ -96,16 +124,21 @@ class TeamspeakClientQuery {
   }
 
   /**
-   * Deletes the ban rule with ID banid from the server.
-   *
-   * Example:
-   * <code>
+   * Deletes the ban rule with ID banid from the server. <br />
+   * <br />
+   * Example: <br />
+   * <code><pre>
    * TeamspeakClientQuery.bandel(banid).than(function() {
    * 	// Do something
    * }, function(reason) {
    * 	throw reason;
    * });
-   * </code>
+   * </pre></code>
+   *
+   * @return {Promise} 								Promise that resolves when the method was
+	 *                                  successful and rejects if it was not.
+	 *                                  Provides an error if rejected and nothing
+	 *                                  if it resolves.
    */
   bandel(banid) {
 		return new Promise(function(resolve, reject) {
@@ -120,16 +153,21 @@ class TeamspeakClientQuery {
   }
 
   /**
-   * Deletes all active ban rules from the server.
-   *
-   * Example:
-   * <code>
+   * Deletes all active ban rules from the server. <br />
+   * <br />
+   * Example: <br />
+   * <code><pre>
    * TeamspeakClientQuery.bandelall().than(function() {
    * 	// Do something
    * }, function(reason) {
    * 	throw reason;
    * });
-   * </code>
+   * </pre></code>
+   *
+   * @return {Promise} 								Promise that resolves when the method was
+	 *                                  successful and rejects if it was not.
+	 *                                  Provides an error if rejected and a
+	 *                                  {@link Response} if it resolves.
    */
   bandelall() {
 		return new Promise(function(resolve, reject) {
@@ -145,16 +183,21 @@ class TeamspeakClientQuery {
   }
 
   /**
-   * Displays a list of active bans on the selected virtual server.
-   *
-   * Example:
-   * <code>
+   * Displays a list of active bans on the selected virtual server. <br />
+   * <br />
+   * Example: <br />
+   * <code><pre>
    * TeamspeakClientQuery.banlist().then(function(respones) {
-   *   // Do something
+   * 	// Do something
    * }, function(reason) {
-   *   throw reason;
+   * 	throw reason;
    * });
-   * </code>
+   * </pre></code>
+   *
+   * @return {Promise}						Promise that resolves when the method was
+	 *                              successful and rejects if it was not.
+	 *                              Provides an error if rejected and an array
+	 *                              of all bans if it resolves.
    */
   banlist() {
     return new Promise(function(resolve, reject) {
@@ -186,10 +229,98 @@ class TeamspeakClientQuery {
     }.bind(this));
   }
 
-	// channeladdperm
-	// channelclientaddperm
-	// channelclientdelperm
-	// channelclientlist
+	/**
+	 * Adds a set of specified permissions to a channel. Multiple permissions can be
+	 * added by providing the two parameters of each permission. A permission can be
+	 * specified by permid or permsid.
+	 *
+	 * NOT IMPLEMENTED YET!!!
+	 *
+	 * @param  {Number} channelid 				Id of the channel, which the permissions
+	 *                                		should be applied to.
+	 * @param  {Number[]} permissionid  	Ids of the permissions that should
+	 *                                   	be added.
+	 *                             	     	provide this argument or
+	 *                             	     	{@link permissionname}.
+	 * @param  {String[]} permissionname 	Names of the permissions that should be
+	 *                                    added.
+	 *                             	      provide this argument or
+	 *                             	      {@link permissionid}.
+	 * @param  {Number[]} permissionvalue The values of the permissions that
+	 *                                    should be added.
+	 *
+	 * @return {Promise}            			Promise that resolves when the method was
+	 *                                    successful and rejects if it was not.
+	 *                                    Provides an error if rejected and nothing
+	 *                                    if it resolves.
+	 */
+	channeladdperm(channelid, permissionid, permissionname, permissionvalue) {
+
+	}
+
+	/**
+	 * Adds a set of specified permissions to a client in a specific channel.
+	 * Multiple permissions can be added by providing the two parameters of each
+	 * permission. A permission can be specified by permid or permsid.
+	 *
+	 * NOT IMPLEMENTED YET!!!
+	 *
+	 * @param  {Number} channelid       	Id of the channel, which the permissions
+	 *                                   	should be applied to.
+	 * @param  {Number} clientdbid      	Id of the client, that the permissions
+	 *                                   	should applied to.
+	 * @param  {Number[]} permissionid    Ids of the permissions that should
+	 *                                   	be added.
+	 *                             	     	provide this argument or
+	 *                             	     	{@link permissionname}.
+	 * @param  {String[]} permissionname  Names of the permissions that should
+	 *                                   	be added.
+	 *                             	     	provide this argument or
+	 *                             	     	{@link permissionid}.
+	 * @param  {Number} permissionvalue 	The values of the permissions that
+	 *                                    should be added.
+	 *
+	 * @return {Promise}                 	Promise that resolves when the method was
+	 *                                    successful and rejects if it was not.
+	 *                                    Provides an error if rejected and nothing
+	 *                                    if it resolves.
+	 */
+	channelclientaddperm(channelid, clientdbid, permissionid, permissionname,
+		permissionvalue) {
+
+
+	}
+
+	/**
+	 * Removes a set of specified permissions from a client in a specific channel.
+	 * Multiple permissions can be removed at once. A permission can be specified
+	 * by permid or permsid.
+	 *
+	 * NOT IMPLEMENTED YET!!!
+	 *
+	 * @param  {Number} channelid       	Id of the channel, which the permissions
+	 *                                   	should be deleted from.
+	 * @param  {Number} clientdbid      	Id of the client, that the permissions
+	 *                                   	should deleted from.
+	 * @param  {Number[]} permissionid    Ids of the permissions that should
+	 *                                   	be deleted.
+	 *                             	     	provide this argument or
+	 *                             	     	{@link permissionname}.
+	 * @param  {String[]} permissionname  Names of the permissions that should
+	 *                                   	be deleted.
+	 *                             	     	provide this argument or
+	 *                             	     	{@link permissionid}.
+	 * @param  {Number} permissionvalue 	The values of the permissions that
+	 *                                    should be deleted.
+	 *
+	 * @return {Promise}                 	Promise that resolves when the method was
+	 *                                    successful and rejects if it was not.
+	 *                                    Provides an error if rejected and nothing
+	 *                                    if it resolves.
+	 */
+	channelclientdelperm(channelid, clientdbid, permissionid, permissionname) {
+
+	}
 
   channelclientlist() {
 
@@ -299,7 +430,32 @@ class TeamspeakClientQuery {
     }.bind(this));
   }
 
-	// clientmove
+	/**
+	 * Moves one or more clients specified with clid to the channel with ID cid. If
+	 * the target channel has a password, it needs to be specified with cpw. If the
+	 * channel has no password, the parameter can be omitted.
+	 *
+	 * @param  {Number} channelid       Channel id of the target channel
+	 * @param  {String} channelpassword Channel password
+	 * @param  {Number} clientid        Client id of the player to move
+	 *
+	 * @return {Promise}                Promise that resolves when the method was
+	 *                                  successful and rejects if it was not.
+	 *                                  Provides an error if rejected and nothing
+	 *                                  if it resolves.
+	 */
+	clientmove(channelid, channelpassword, clientid) {
+		return new Promise(function(resolve, reject) {
+			this.socket.send("clientmove", {"cid": channelid, "cpw": channelpassword,
+			"clid": clientid}, function(res) {
+				if(res.error) {
+					reject(error);
+				} else {
+					resolve();
+				}
+			});
+		}.bind(this));
+	}
 	// clientmute
 	// clientnotifyregister
 	// clientnotifyunregister

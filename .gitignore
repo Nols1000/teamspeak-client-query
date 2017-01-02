@@ -1,4 +1,8 @@
 /node_modules/
 /test-server/
-/doc/
+/documentation/
+/tutorial/
 /logs/
+cli.js
+gen.bat
+jsdoc.json

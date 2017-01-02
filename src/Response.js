@@ -23,6 +23,12 @@
   */
 class Response {
 
+	/**
+	 * Create a Respons
+	 * @param  {String[]} lines   Lines of the response
+	 * @param  {Error} 		error   Error or Null
+	 * @param  {Request} 	request Request the response is refering
+	 */
   constructor(lines, error, request) {
     this.lines = lines;
     this.error = error;
