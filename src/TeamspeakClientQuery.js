@@ -232,8 +232,8 @@ class TeamspeakClientQuery {
 	/**
 	 * Adds a set of specified permissions to a channel. Multiple permissions can be
 	 * added by providing the two parameters of each permission. A permission can be
-	 * specified by permid or permsid.
-	 *
+	 * specified by permid or permsid. <br />
+	 * <br />
 	 * NOT IMPLEMENTED YET!!!
 	 *
 	 * @param  {Number} channelid 				Id of the channel, which the permissions
@@ -261,8 +261,8 @@ class TeamspeakClientQuery {
 	/**
 	 * Adds a set of specified permissions to a client in a specific channel.
 	 * Multiple permissions can be added by providing the two parameters of each
-	 * permission. A permission can be specified by permid or permsid.
-	 *
+	 * permission. A permission can be specified by permid or permsid. <br />
+	 * <br />
 	 * NOT IMPLEMENTED YET!!!
 	 *
 	 * @param  {Number} channelid       	Id of the channel, which the permissions
@@ -294,8 +294,8 @@ class TeamspeakClientQuery {
 	/**
 	 * Removes a set of specified permissions from a client in a specific channel.
 	 * Multiple permissions can be removed at once. A permission can be specified
-	 * by permid or permsid.
-	 *
+	 * by permid or permsid. <br />
+	 * <br />
 	 * NOT IMPLEMENTED YET!!!
 	 *
 	 * @param  {Number} channelid       	Id of the channel, which the permissions
@@ -310,8 +310,6 @@ class TeamspeakClientQuery {
 	 *                                   	be deleted.
 	 *                             	     	provide this argument or
 	 *                             	     	{@link permissionid}.
-	 * @param  {Number} permissionvalue 	The values of the permissions that
-	 *                                    should be deleted.
 	 *
 	 * @return {Promise}                 	Promise that resolves when the method was
 	 *                                    successful and rejects if it was not.
@@ -322,7 +320,64 @@ class TeamspeakClientQuery {
 
 	}
 
-  channelclientlist() {
+	/**
+	 * Displays a list of clients that are in the channel specified by the cid
+	 * parameter. Included information is the clientID, client database id,
+	 * nickname, channelID and client type. <br />
+	 * Please take note that you can only view clients in channels that you are
+	 * currently subscribed to. <br />
+	 * <br />
+	 * Here is a list of the additional display paramters you will receive for
+	 * each of the possible modifier parameters. <br />
+	 * <br />
+	 * -uid: <br />
+	 * client_unique_identifier <br />
+	 * <br />
+	 * -away: <br />
+	 * client_away <br />
+	 * client_away_message <br />
+	 * <br />
+	 * -voice: <br />
+	 * client_flag_talking <br />
+	 * client_input_muted <br />
+	 * client_output_muted <br />
+	 * client_input_hardware <br />
+	 * client_output_hardware <br />
+	 * client_talk_power <br />
+	 * client_is_talker <br />
+	 * client_is_priority_speaker <br />
+	 * client_is_recording <br />
+	 * client_is_channel_commander <br />
+	 * client_is_muted <br />
+	 * <br />
+	 * -groups: <br />
+	 * client_servergroups <br />
+	 * client_channel_group_id <br />
+	 * <br />
+	 * -icon: <br />
+	 * client_icon_id <br />
+	 * <br />
+	 * -country: <br />
+	 * client_country
+	 *
+	 * @param  {Number} channelid   	Id of the channel to get the clients from.
+	 * @param  {Boolean} showUid     	Add uid of the client to the Included
+	 *                                information.
+	 * @param  {Boolean} showAway    	Add away status and message to the
+	 *                                information
+	 * @param  {Boolean} showVoice   	Add some voice attributes to the information
+	 * @param  {Boolean} showGroups  	Add servergroups and channel group id to
+	 *                                the information
+	 * @param  {Boolean} showIcon    	Add icon id to the information.
+	 * @param  {Boolean} showCountry 	Add country to the information.
+	 *
+	 * @return {Promise}             	Promise that resolves when the method was
+	 *                                successful and rejects if it was not.
+	 *                                Provides an error if rejected and nothing
+	 *                                if it resolves.
+	 */
+  channelclientlist(channelid, showUid, showAway, showVoice, showGroups,
+		showIcon, showCountry) {
 
   }
 
