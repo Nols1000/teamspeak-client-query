@@ -26,10 +26,10 @@ For a full documentation please wait for the first release.
 
 ### Features
 - [ ] Methods
-    - [ ] banadd
-    - [ ] banclient
-    - [ ] bandel
-    - [ ] bandelall
+    - [ ] banadd (no response yet)
+    - [ ] banclient (no response yet)
+    - [X] bandel
+    - [X] bandelall
     - [X] banlist
     - [ ] channeladdperm
     - [ ] channelclientaddperm
