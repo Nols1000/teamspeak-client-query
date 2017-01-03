@@ -16,3 +16,31 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+let EventEmitter = require('events').EventEmitter;
+
+ /**
+  * NotificationListener
+  * @author Nils-Boerge Margotti <margotni@kalmiya.de>
+  */
+class NotificationListener extends EventEmitter {
+
+  /**
+   * Create NotificationListener
+   */
+  constructor() {
+    super();
+  }
+
+  /**
+   * Event handler fired when {Socket} received a notification
+   * @param {String} name Notification name
+   * @param {Notification} notification Notification object
+   */
+  onNotificationReceived(name, notification) {
+    console.log("notify", name, notification);
+    this.emit(name, notification);
+  }
+}
+
+module.exports = NotificationListener;

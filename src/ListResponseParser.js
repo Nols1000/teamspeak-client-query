@@ -52,10 +52,15 @@ class ListResponseParser {
       let arg = scanner.next();
       arg = arg.split("=");
       if(arg.length > 1) {
-        res[arg[0]] = arg[1];
+        res[arg[0]] = ListResponseParser.parseString(arg[1]);
       }
     }
     return res;
+  }
+
+  static parseString(string) {
+    string = string.replace(new RegExp("\\s", "g"), " ");
+    return string;
   }
 }
 

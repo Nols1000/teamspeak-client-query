@@ -17,23 +17,26 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-let TeamspeakClientQuery = require('./src/TeamspeakClientQuery.js');
-let NotificationListener = require('./src/NotificationListener.js');
+let Scanner = require('./Scanner.js');
 
+/**
+ * HelpResponseParser
+ * Parse commandlist from response
+ * @author Nils-Boerge Margotti <margotni@kalmiya.de>
+ */
+class HelpResponseParser {
 
-var tcq = new TeamspeakClientQuery("127.0.0.1", 25639);
-tcq.registerNotificationListener(new NotificationListener()).then(function(res) {
-  console.log("res", res);
-}, function(error) {
-  console.log(error);
-});
-tcq.banadd(null, "test", null, 1, "test proposes").then(function(res) {
-  console.log("res", res);
-}, function(error) {
-  console.log(error);
-});
+  static parse(data) {
+    let res = [];
+    data.pop();
+    while(data.length > 0) {
+      res = res.concat(ListResponseParser.parseLine(data[0]));
+      data.shift();
+    }
+    return res;
+  }
 
-module.exports = {
-  "TeamspeakClientQuery": TeamspeakClientQuery,
-  "NotificationListener": NotificationListener
-};
+  static parseLine() {
+
+  }
+}

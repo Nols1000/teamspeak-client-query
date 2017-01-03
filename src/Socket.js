@@ -18,8 +18,6 @@
  */
 
 /* Imports */
-let EventEmitter = require('events').EventEmitter;
-
 let Request = require('./Request.js');
 let Response = require('./Response.js');
 let Scanner = require('./Scanner.js');
@@ -36,19 +34,26 @@ winston.remove(winston.transports.Console);
  * Socket
  * @author Nils-Boerge Margotti <nilsmargotti@gmail.com>
  */
-class Socket extends EventEmitter {
+class Socket {
 
   constructor(address, port) {
-    super();
 
     this.socket = new require('net').Socket();
 
     this.address = address | "127.0.0.1";
     this.port = port | 25639;
-
+    // active requests query
     this.requests = [];
+
     this.packetLines = [];
+    this.postpondedPacketLinesDeletion = false;
+    this.packetTerminatorRegex = /error id=([0-9]*) msg=(.*)/;
+    this.welcomePacketTerminatorRegex = /selected schandlerid=([0-9]*)/;
+    this.notificationPacketRegex = /notify([a-z]*) schandlerid=([0-9]*) (.*)/;
+
     this.listener = null;
+
+    this.schandlerid = 0;
   }
 
   /**
@@ -85,12 +90,14 @@ class Socket extends EventEmitter {
    *
    */
   registerNotificationListener(listener) {
-    this.send('clientnotifyregister schandlerid=0 event=any', function(res) {
-      if(res.error) {
-        throw res.error;
-      }
-      this.listener = listener;
-    }.bind(this));
+    this.listener = listener;
+  }
+
+  /**
+   *
+   */
+  unregisterNotificationListener() {
+    this.listener = null;
   }
 
   /**
@@ -106,45 +113,55 @@ class Socket extends EventEmitter {
   onData(data) {
     let scanner = new Scanner(data);
 
-    let packetTerminatorRegex = /error id=([0-9]*) msg=(.*)/;
-    let welcomePacketTerminatorRegex = /selected schandlerid=([0-9]*)/;
-    let notificationPacketRegex = /notify([a-z]*) schandlerid=([0-9]*) (.*)/;
-
-    let postpondedPacketLinesDeletion = false;
-
     while(scanner.hasNextLine()) {
       let line = scanner.nextLine();
       if(line != "") {
         console.log("$", line);
         this.packetLines.push(line);
-        if(packetTerminatorRegex.test(line)) {
-          // Packet terminated
+        if(this.packetTerminatorRegex.test(line)) {
+          // get packet
           if(typeof this.requests[0].callback != "undefined") {
-            let packet = packetTerminatorRegex.exec(line);
+            // call callback if it's defined
+            let packet = this.packetTerminatorRegex.exec(line);
             let response = null;
             if(packet[1] != 0) {
+              // an error occured
               response = new Response(this.packetLines, new Error(packet[2]),
               this.requests[0]);
             } else {
+              // response is ok
               response = new Response(this.packetLines, null, this.requests[0]);
             }
             this.requests[0].callback(response);
           }
+          // remove request form active requests query
           this.requests.shift();
-          postpondedPacketLinesDeletion = false;
+          // delete packet lines memory
+          this.postpondedPacketLinesDeletion = false;
           this.packetLines = [];
-        } else if(welcomePacketTerminatorRegex.test(line)) {
+        } else if(this.welcomePacketTerminatorRegex.test(line)) {
+          // get schandlerid and delete packet lines memory
+          let packet = this.welcomePacketTerminatorRegex.exec(line);
+          this.schandlerid = packet[1];
+          this.onWelcome(packet[1]);
           this.packetLines = [];
-        } else if(notificationPacketRegex.test(line)) {
-          let packet = notificationPacketRegex.exec(line);
+        } else if(this.notificationPacketRegex.test(line)) {
+          // get notification
+          let packet = this.notificationPacketRegex.exec(line);
           this.packetLines[this.packetLines.length - 1] = packet[3];
           winston.log("debug", "notification: " + packet[1] + " " + packet[3]);
-          //this.listener.emit(packet[1], packet[2], packet[3]);
-          postpondedPacketLinesDeletion = true;
+          if(this.listener != null) {
+            // TODO: initalize Notification
+            this.listener.onNotificationReceived(packet[1], [packet[2], packet[3]]);
+          }
+          // postpond packet line memory deletion because it can be part of
+          // a request response
+          this.postpondedPacketLinesDeletion = true;
           continue;
         }
 
-        if(postpondedPacketLinesDeletion) {
+        if(this.postpondedPacketLinesDeletion) {
+          // delete packet lines memory if it was not part of a request response
           this.packetLines = [line];
         }
       }
@@ -156,6 +173,13 @@ class Socket extends EventEmitter {
    */
   onError(error) {
     winston.log("error", error);
+    if(this.requests.length > 0) {
+      for(let request of this.requests) {
+        if(typeof request.callback != "undefined") {
+          request.callback(new Response([], error, request));
+        }
+      }
+    }
   }
 
   /**
@@ -163,6 +187,18 @@ class Socket extends EventEmitter {
    */
   onClose(had_error) {
     winston.log("debug", "Connection closed.");
+    if(this.requests.length > 0) {
+      for(let request of this.requests) {
+        if(typeof request.callback != "undefined") {
+          request.callback(new Response([], new Error("Connection closed"),
+          request));
+        }
+      }
+    }
+  }
+
+  onWelcome(schandlerid) {
+
   }
 
   /**

@@ -38,6 +38,35 @@ For a full documentation please wait for the first release.
     - [X] channellist
     - [X] clientdblist
 - [ ] Events
+    - [ ] notifytalkstatuschange
+    - [ ] notifymessage
+    - [ ] notifymessagelist
+    - [ ] notifycomplainlist
+    - [ ] notifybanlist
+    - [ ] notifyclientmoved
+    - [ ] notifyclientleftview
+    - [ ] notifycliententerview
+    - [ ] notifyclientpoke
+    - [ ] notifyclientchatclosed
+    - [ ] notifyclientchatcomposing
+    - [ ] notifyclientupdated
+    - [ ] notifyclientids
+    - [ ] notifyclientdbidfromuid
+    - [ ] notifyclientnamefromuid
+    - [ ] notifyclientnamefromdbid
+    - [ ] notifyclientuidfromclid
+    - [ ] notifyconnectioninfo
+    - [ ] notifychannelcreated
+    - [ ] notifychanneledited
+    - [ ] notifychanneldeleted
+    - [ ] notifychannelmoved
+    - [ ] notifyserveredited
+    - [ ] notifyserverupdated
+    - [ ] channellist
+    - [ ] channellistfinished
+    - [ ] notifytextmessage
+    - [ ] notifycurrentserverconnectionchanged
+    - [ ] notifyconnectstatuschange
 
 ### Changelog
 Please read [Changelog.md](CHANGELOG.md)

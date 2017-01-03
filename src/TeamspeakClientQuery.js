@@ -34,6 +34,23 @@ class TeamspeakClientQuery {
   constructor(address, port) {
     this.socket = new Socket(address, port);
     this.socket.connect();
+    this.socket.onWelcome = function(schandlerid) {
+      console.log(schandlerid);
+    }
+  }
+
+  registerNotificationListener(listener) {
+    return new Promise(function(resolve, reject) {
+      this.socket.send("clientnotifyregister", {"schandlerid": 1, "event": "any"},
+      function(res) {
+        if(res.error) {
+          reject(res.error);
+        } else {
+          this.socket.registerNotificationListener(listener);
+          resolve(res);
+        }
+      }.bind(this));
+    }.bind(this));
   }
 
   /**
@@ -42,13 +59,29 @@ class TeamspeakClientQuery {
    *
    * Example:
    * <code>
-   *
+   * tcq.banadd().then(function() {
+   *   // Do something
+   * }, function(reason) {
+   *   throw reason;
+   * });
    * </code>
    */
   banadd(ip, name, uid, time, reason) {
     return new Promise(function(resolve, reject) {
-
-    });
+      this.socket.send("banadd", {
+        "ip": ip,
+        "name": name,
+        "uid": uid,
+        "time": time,
+        "reason": reason
+      }, function(res) {
+        if(res.error) {
+          reject(res.error);
+        } else {
+          resolve();
+        }
+      });
+    }.bind(this));
   }
 
   /**
@@ -97,7 +130,7 @@ class TeamspeakClientQuery {
    *
    * Example:
    * <code>
-   * tcq.banlist().then(function(respones) {
+   * tcq.banlist().then(function(banlist) {
    *   // Do something
    * }, function(reason) {
    *   throw reason;
@@ -254,12 +287,5 @@ class TeamspeakClientQuery {
 
   }
 }
-
-var tcq = new TeamspeakClientQuery("127.0.0.1", 25639);
-tcq.clientlist(true, true, true, true, true, true).then(function(res) {
-  console.log("res", res);
-}, function(error) {
-  throw error;
-});
 
 module.exports = TeamspeakClientQuery;

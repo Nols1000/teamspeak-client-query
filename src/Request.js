@@ -33,7 +33,7 @@ class Request {
     let string = this.command;
     for(let key in this.arguments) {
       let type = typeof this.arguments[key];
-      if(type != "undefined") {
+      if(type != "undefined" && this.arguments[key] != null) {
         if(type == "boolean" && this.arguments[key]) {
           string += " -" + key;
         } else {
